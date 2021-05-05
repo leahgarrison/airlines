@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 
 
-const FlightsTableRow = ({ route }) => {
-
+const FlightsTableRow = ({ route, getAirlineById, getAirportByCode }) => {
+  console.log(route.airline)
+  const airlineName = getAirlineById(route.airline).name
+  const airportSrcName = getAirportByCode(route.src).name
+  const airportDestinationName = getAirportByCode(route.dest).name
   return (
     <>
-      <td>
-        {route.airline}
-      </td>
-      <td>{route.src}</td>
-      <td>{route.dest}</td>
+      <td>{airlineName}</td>
+      <td>{airportSrcName}</td>
+      <td>{airportDestinationName}</td>
     </>
   )
 }

@@ -9,7 +9,7 @@ import FlightsTableRow from './FlightsTableRow';
   src
   destination in a table
 */
-const FlightsTable = ({ routes }) => {
+const FlightsTable = ({ routes, getAirlineById, getAirportByCode }) => {
 
   return (
     <>
@@ -25,7 +25,7 @@ const FlightsTable = ({ routes }) => {
           {routes.map((route, index) => {
             return (
               <tr key={index.toString()}>
-                <FlightsTableRow route={route} />
+                <FlightsTableRow route={route} getAirlineById={getAirlineById} getAirportByCode={getAirportByCode} />
               </tr>
             )
           })}

@@ -3,20 +3,9 @@ import './App.css';
 import flightData from './data.js'
 import FlightsTable from './components/FlightsTable';
 
-const { routes, airlines, airports } = flightData;
+const { routes, airlines, airports, getAirlineById, getAirportByCode } = flightData;
 const App = () => {
-  // const renderRoutes = (routes) => {
-  //   const routeItems = routes.map(route => {
-  //     return 
-  //     <tr>
-  //       <td></td>
-  //       <td></td>
-  //       <td></td>
-  //     </tr>
-  //   })
-  // }
-  // console.log(routes)
-
+  console.log(getAirlineById)
   return (
     <div className="app">
       <header className="header">
@@ -26,7 +15,7 @@ const App = () => {
         <p>
           Welcome to the app!
     </p>
-        <FlightsTable routes={routes} />
+        <FlightsTable routes={routes} getAirlineById={getAirlineById} getAirportByCode={getAirportByCode} />
       </section>
     </div>
   )
