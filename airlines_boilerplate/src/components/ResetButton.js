@@ -9,7 +9,7 @@ const ResetButton = ({ title, onClick, disabled, resetStartIndex, resetLastIndex
     onClick(event)
   }
   return (
-    <button disabled={disabled} onClick={resetRows}>
+    <button disabled={disabled} onClick={resetRows} type="reset">
       {title}
     </button>
   )

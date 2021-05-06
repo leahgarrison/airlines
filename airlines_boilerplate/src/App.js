@@ -13,14 +13,22 @@ const App = () => {
   ];
 
   const [perPage, updatePerPage] = useState(25);
-  const [selectedAirline, updateSelectedAirline] = useState(null)
-  const [selectedAirport, updateSelectedAirport] = useState(null)
+  const [selectedAirline, updateSelectedAirline] = useState("")
+  const [selectedAirport, updateSelectedAirport] = useState("")
   const [displayedRoutes, updateDisplayedRoutes] = useState(routes)
   const allAirlines = getAllAirlineNames()
+  let airLOptions = allAirlines.map(airline => ({ name: airline, disabled: false }))
+  airLOptions.unshift({ name: "", disabled: true })
+
+  const [airlineOptions, updateAirlineOptions] = useState(airLOptions)
   const allAirports = getAllAirportNames()
+  let airPOptions = allAirports.map(airport => ({ name: airport, disabled: false }))
+  airPOptions.unshift({ name: "", disabled: true })
+  const [airportOptions, updateAirportOptions] = useState(airPOptions)
+
 
   const filterRoutesByAirline = (selectedAirline) => {
-    if (selectedAirline !== null) {
+    if (selectedAirline !== "") {
       let id = getAirlineIDByName(selectedAirline)
       return displayedRoutes.filter(route => route.airline === id)
     } else {
@@ -29,7 +37,7 @@ const App = () => {
   }
 
   const filterRoutesByAirport = (selectedAirport) => {
-    if (selectedAirport === null) {
+    if (selectedAirport === "") {
       return displayedRoutes
     } else {
       let code = getAirportCodeByName(selectedAirport)
@@ -58,25 +66,73 @@ const App = () => {
     }
   }
 
+  // function resetSelected(selectElement) {
+  //   if (selectElement.querySelector("[selected]")) selectElement.querySelector("[selected]").removeAttribute('selected')
+  //   // selectElement.firstChild.setAttribute("selected", true)
+  // }
+
+  function updateOptions(options, updateOptionsFunction, searchValue) {
+    let opt = options.map(option => {
+      let { name, disabled } = option
+      if (searchValue && name != searchValue) {
+        option.disabled = true
+        return option
+      } else {
+        return option
+      }
+    })
+
+    updateOptionsFunction(opt)
+  }
   function handleSelectedAirline(event) {
     event.preventDefault()
     let selection = event.target
     updateSelectedAirline(selection.value)
+    let updatedRoutes = [...filterRoutesByAirline(selection.value)]
     updateDisplayedRoutes([...filterRoutesByAirline(selection.value)])
+    updateOptions(airlineOptions, updateAirlineOptions, selection.value)
+    let airportCodes = updatedRoutes.map(route => [route.src, route.dest]).flat(Infinity)
+    let airportNames = airportCodes.map(code => getAirportByCode(code).name)
+    let aOoptions = airportOptions.map(airport => {
+      if (!airportNames.includes(airport.name)) {
+        airport.disabled = true;
+      }
+      return airport
+    })
+    updateAirportOptions(aOoptions)
   }
 
   function handleSelectedAirport(event) {
     event.preventDefault()
     let selection = event.target
     updateSelectedAirport(selection.value)
-    updateDisplayedRoutes([...filterRoutesByAirport(selection.value)])
+    let updatedRoutes = [...filterRoutesByAirport(selection.value)]
+    updateDisplayedRoutes(updatedRoutes)
+    updateOptions(airportOptions, updateAirportOptions, selection.value)
+    let airlineId = updatedRoutes.map(route => route.airline)
+    let airlineNames = airlineId.map(id => getAirlineById(id).name)
+    let airOptions = airlineOptions.map(airline => {
+      if (!airlineNames.includes(airline.name)) {
+        airline.disabled = true
+      }
+
+      return airline
+    })
+
+    updateAirlineOptions(airOptions)
+
   }
 
   function clearFilters(event) {
     event.preventDefault()
-    updateSelectedAirport(null)
-    updateSelectedAirline(null)
+    let selection = event.target
+    // resetSelected(selection)
+
+    updateSelectedAirport("")
+    updateSelectedAirline("")
     updateDisplayedRoutes([...routes])
+    updateAirlineOptions([...airLOptions])
+    updateAirportOptions([...airPOptions])
   }
 
 
@@ -91,12 +147,12 @@ const App = () => {
           Welcome to the app!
         </p>
         <Select
-          options={allAirlines} valueKey="id" titleKey="name"
-          allTitle="All Airlines" value="" onSelect={handleSelectedAirline} labelText="Show routes on"
+          options={airlineOptions} valueKey="id" titleKey="name"
+          allTitle="All Airlines" value="" onSelect={handleSelectedAirline} labelText="Show routes on" searchFilter={selectedAirline}
         />
         <Select
-          options={allAirports} valueKey="id" titleKey="name"
-          allTitle="All Airports" value="" onSelect={handleSelectedAirport} labelText="flying in or out of"
+          options={airportOptions} valueKey="id" titleKey="name"
+          allTitle="All Airports" value="" onSelect={handleSelectedAirport} labelText="flying in or out of" searchFilter={selectedAirport}
         />
 
         <FlightsTable className="routes-table" columns={columns} rows={displayedRoutes} format={formatValue} perPage={perPage} clearFilters={clearFilters} />
