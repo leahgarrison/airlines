@@ -28,20 +28,23 @@ const App = () => {
     }
   }
 
-  const filterRoutesByAirport = (selectedAirport, routes = displayedRoutes) => {
-    if (selectedAirport !== null) {
-      let code = getAirportCodeByName(selectedAirport)
-      return routes.filter(route => route.src === code || route.dest === code)
+  const filterRoutesByAirport = (selectedAirport) => {
+    if (selectedAirport === null) {
+      return displayedRoutes
     } else {
-      return routes
+      let code = getAirportCodeByName(selectedAirport)
+      return displayedRoutes.filter(route => route.src === code || route.dest === code)
     }
+
   }
-  const getFilteredRoutes = (selectedAirline = null, selectedAirport = null) => {
-    if (selectedAirline === null && selectedAirline === null) return updateDisplayedRoutes(routes)
-    let routesFilteredByAirline = filterRoutesByAirline(selectedAirline)
-    if (selectedAirport === null) return updateDisplayedRoutes(routesFilteredByAirline)
-    updateDisplayedRoutes(filterRoutesByAirport(selectedAirport, routesFilteredByAirline))
-  }
+  // const getFilteredRoutes = (selectedAirline = null, selectedAirport = null) => {
+  //   let selectedRoutes;
+  //   if (selectedAirline === null && selectedAirline === null) selectedRoutes = routes;
+  //   if (selectedAirline !== null) selectedRoutes = filterRoutesByAirline(selectedAirline)
+  //   console.log(selectedAirport)
+  //   if (selectedAirport !== null) selectedRoutes = filterRoutesByAirport(selectedAirport)
+  //   updateDisplayedRoutes(selectedRoutes)
+  // }
 
   // format property; returns a string:
   // we get the data from routes?
@@ -55,6 +58,7 @@ const App = () => {
   // property; "src": "srcCode"
   // we pass the Table the routes as the row data?
   function formatValue(property, value) {
+    console.log(value)
     if (property === 'airline') {
       return getAirlineById(value).name
     } else if (property === 'src' || property === 'dest') {
@@ -66,12 +70,14 @@ const App = () => {
     event.preventDefault()
     let selection = event.target
     updateSelectedAirline(selection.value)
+    updateDisplayedRoutes([...filterRoutesByAirline(selection.value)])
   }
 
   function handleSelectedAirport(event) {
     event.preventDefault()
     let selection = event.target
     updateSelectedAirport(selection.value)
+    updateDisplayedRoutes([...filterRoutesByAirport(selection.value)])
   }
 
 

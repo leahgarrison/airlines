@@ -1408,8 +1408,8 @@ function getAirlineById(id) {
 }
 
 function getAirlineIDByName(name) {
-  let airline = airlines.find(airline => airline.name === name)
-  return airline.id
+  console.log(airlines)
+  return airlines.find(airline => airline.name === name).id
 }
 
 function getAirportByCode(code) {
@@ -1417,8 +1417,7 @@ function getAirportByCode(code) {
 }
 
 function getAirportCodeByName(name) {
-  let airport = airports.find(airport.name === name);
-  return airport.code
+  return airports.find(airport => airport.name === name).code;
 }
 
 

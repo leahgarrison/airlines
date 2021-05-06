@@ -22,11 +22,11 @@ import Button from './Button';
 
 const FlightsTable = ({ columns, rows, format, perPage }) => {
   // const [pageNumber, updatePageNumber] = useState(1)
-  console.log(rows)
   const [lastRowIndex, updateLastRowIndex] = useState(perPage - 1)
   const [startRowIndex, updateStartRowIndex] = useState(0)
   let currentRows = rows.slice(startRowIndex, lastRowIndex + 1)
 
+  console.log(currentRows)
 
   const getLastDisplayedRowIndex = () => {
     let lastRow = currentRows[currentRows.length - 1]
