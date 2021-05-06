@@ -47,17 +47,6 @@ const App = () => {
   }
 
 
-  // format property; returns a string:
-  // we get the data from routes?
-  // we want to get the names
-  // we use this on the routes; to get the human data to show 
-  // we pass this function, but it's scope allows us to access the data here
-  // so we will be passing the table a row of data to show
-  // table will be given row data; using formatValue to display it
-  // so the row data will be passed:
-  //  - row data will be passed 
-  // property; "src": "srcCode"
-  // we pass the Table the routes as the row data?
   function formatValue(property, value) {
     if (property === 'airline') {
       return getAirlineById(value).name
@@ -66,10 +55,6 @@ const App = () => {
     }
   }
 
-  // function resetSelected(selectElement) {
-  //   if (selectElement.querySelector("[selected]")) selectElement.querySelector("[selected]").removeAttribute('selected')
-  //   // selectElement.firstChild.setAttribute("selected", true)
-  // }
 
   function updateOptions(options, updateOptionsFunction, searchValue) {
     let opt = options.map(option => {
@@ -126,7 +111,6 @@ const App = () => {
   function clearFilters(event) {
     event.preventDefault()
     let selection = event.target
-    // resetSelected(selection)
 
     updateSelectedAirport("")
     updateSelectedAirline("")

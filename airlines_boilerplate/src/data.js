@@ -1408,7 +1408,6 @@ function getAirlineById(id) {
 }
 
 function getAirlineIDByName(name) {
-  console.log(airlines)
   return airlines.find(airline => airline.name === name).id
 }
 

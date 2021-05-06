@@ -4,7 +4,7 @@ const Select = ({ options, onSelect, valueKey, titleKey, allTitle, labelText, se
   const id = allTitle + '-select'
   return (
     <>
-      <label for={id}>{labelText}</label>
+      <label htmlFor={id}>{labelText}</label>
       <select id={id} onChange={onSelect} value={searchFilter}>{options.map((option, index) => {
         const { name, disabled } = option
         if (index === 0) {
