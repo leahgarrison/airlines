@@ -1407,10 +1407,29 @@ function getAirlineById(id) {
   return airlines.find(airline => airline.id === id)
 }
 
+function getAirlineIDByName(name) {
+  let airline = airlines.find(airline => airline.name === name)
+  return airline.id
+}
+
 function getAirportByCode(code) {
   return airports.find(airline => airline.code === code);
 }
 
+function getAirportCodeByName(name) {
+  let airport = airports.find(airport.name === name);
+  return airport.code
+}
 
 
-export default { routes, airlines, airports, getAirlineById, getAirportByCode };
+
+function getAllAirlineNames() {
+  return airlines.map(airline => airline.name)
+}
+
+function getAllAirportNames() {
+  return airports.map(airport => airport.name)
+}
+
+
+export default { routes, airlines, airports, getAirlineById, getAirportByCode, getAllAirlineNames, getAirlineIDByName, getAirportCodeByName, getAllAirportNames };
