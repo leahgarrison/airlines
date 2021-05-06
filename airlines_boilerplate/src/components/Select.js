@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 
-const Select = ({ options, onSelect, valueKey, titleKey, allTitle }) => {
+const Select = ({ options, onSelect, valueKey, titleKey, allTitle, labelText }) => {
   options.unshift(titleKey)
+  const id = allTitle + '-select'
   return (
     <>
-      <select onChange={onSelect}>{options.map((option, index) => {
+      <label for={id}>{labelText}</label>
+      <select id={id} onChange={onSelect}>{options.map((option, index) => {
         if (index === 0) {
           return <option key={index} selected disabled>{allTitle}</option>
         } else {

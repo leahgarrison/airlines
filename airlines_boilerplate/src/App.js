@@ -37,14 +37,7 @@ const App = () => {
     }
 
   }
-  // const getFilteredRoutes = (selectedAirline = null, selectedAirport = null) => {
-  //   let selectedRoutes;
-  //   if (selectedAirline === null && selectedAirline === null) selectedRoutes = routes;
-  //   if (selectedAirline !== null) selectedRoutes = filterRoutesByAirline(selectedAirline)
-  //   console.log(selectedAirport)
-  //   if (selectedAirport !== null) selectedRoutes = filterRoutesByAirport(selectedAirport)
-  //   updateDisplayedRoutes(selectedRoutes)
-  // }
+
 
   // format property; returns a string:
   // we get the data from routes?
@@ -58,7 +51,6 @@ const App = () => {
   // property; "src": "srcCode"
   // we pass the Table the routes as the row data?
   function formatValue(property, value) {
-    console.log(value)
     if (property === 'airline') {
       return getAirlineById(value).name
     } else if (property === 'src' || property === 'dest') {
@@ -80,6 +72,14 @@ const App = () => {
     updateDisplayedRoutes([...filterRoutesByAirport(selection.value)])
   }
 
+  function clearFilters(event) {
+    event.preventDefault()
+    updateSelectedAirport(null)
+    updateSelectedAirline(null)
+    updateDisplayedRoutes([...routes])
+  }
+
+
 
   return (
     <div className="app">
@@ -92,13 +92,14 @@ const App = () => {
         </p>
         <Select
           options={allAirlines} valueKey="id" titleKey="name"
-          allTitle="All Airlines" value="" onSelect={handleSelectedAirline}
+          allTitle="All Airlines" value="" onSelect={handleSelectedAirline} labelText="Show routes on"
         />
         <Select
           options={allAirports} valueKey="id" titleKey="name"
-          allTitle="All Airports" value="" onSelect={handleSelectedAirport}
+          allTitle="All Airports" value="" onSelect={handleSelectedAirport} labelText="flying in or out of"
         />
-        <FlightsTable className="routes-table" columns={columns} rows={displayedRoutes} format={formatValue} perPage={perPage} />
+
+        <FlightsTable className="routes-table" columns={columns} rows={displayedRoutes} format={formatValue} perPage={perPage} clearFilters={clearFilters} />
       </section>
     </div>
   )

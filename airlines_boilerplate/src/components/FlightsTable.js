@@ -1,6 +1,7 @@
 import React, { Component, useState } from 'react';
 import FlightsTableRow from './FlightsTableRow';
 import Button from './Button';
+import ResetButton from './ResetButton';
 // import { routes, airlines, airports } from '../data.js'
 
 
@@ -20,8 +21,7 @@ import Button from './Button';
       1-25 -> add perPage
 */
 
-const FlightsTable = ({ columns, rows, format, perPage }) => {
-  // const [pageNumber, updatePageNumber] = useState(1)
+const FlightsTable = ({ columns, rows, format, perPage, clearFilters }) => {
   const [lastRowIndex, updateLastRowIndex] = useState(perPage - 1)
   const [startRowIndex, updateStartRowIndex] = useState(0)
   let currentRows = rows.slice(startRowIndex, lastRowIndex + 1)
@@ -46,9 +46,15 @@ const FlightsTable = ({ columns, rows, format, perPage }) => {
     currentRows = rows.slice(startRowIndex, lastRowIndex + 1)
   }
 
+  const resetDisplayedRoutes = (event) => {
+    currentRows = rows
+    updateStartRowIndex(0)
+    updateLastRowIndex(perPage - 1)
+  }
+
   return (
     <>
-      {lastRowIndex + 1}
+      <ResetButton title="Clear Filters" onClick={clearFilters} resetStartIndex={updateStartRowIndex} resetLastIndex={updateLastRowIndex} disabled={false} perPage={perPage} />
       <table>
         <thead>
           <tr>
